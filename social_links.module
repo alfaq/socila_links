@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * myblock.module
+ */
+//описание функции показывает этот блок в спике всех блоков
+function social_links_block_info() {
+    // This example comes from node.module.
+    $blocks['social_links'] = array(
+        'info' => t('Social links'),
+    );
+
+    return $blocks;
+}
+//функция отображения блока
+function social_links_block_view($delta = '') {
+    $block = array();
+
+    switch ($delta) {
+        case 'social_links':
+            //$block['subject'] = t('Social links');
+				$link_enable = variable_get('link_enable') ? variable_get('link_enable') : "";
+				$block['content'] = '<div class="soc">';
+				if(!empty($link_enable['fb'])){
+					$block['content'] .= '<a target="_blank" href="';
+					$block['content'] .= variable_get('link_fb', '#');
+					$block['content'] .= '" class="fb"></a>';
+				}
+				if(!empty($link_enable['gg'])){
+					$block['content'] .= '<a target="_blank" href="';
+					$block['content'] .= variable_get('link_gg', '#');
+					$block['content'] .= '" class="gplus"></a>';
+				}
+				if(!empty($link_enable['yt'])){
+					$block['content'] .= '<a target="_blank" href="';
+					$block['content'] .= variable_get('link_yt', '#');
+					$block['content'] .= '" class="tube"></a>';
+				}
+				if(!empty($link_enable['tw'])){
+					$block['content'] .= '<a target="_blank" href="';
+					$block['content'] .= variable_get('link_tw', '#');
+					$block['content'] .= '" class="tv"></a>';
+				}
+				if(!empty($link_enable['in'])){
+					$block['content'] .= '<a target="_blank" href="';
+					$block['content'] .= variable_get('link_in', '#');
+					$block['content'] .= '" class="in"></a>';
+				}
+				$block['content'] .= '</div>';
+			
+            break;
+    }
+    return $block;
+}
+
+//функция настроек блока
+function social_links_block_configure($delta = '') {
+    // This example comes from node.module.
+    $form = array();
+    if ($delta == 'social_links') {
+		$form['link_enable'] = array(
+            '#type' => 'checkboxes',
+            '#title' => t('Enable links'),
+			'#default_value' => variable_get('link_enable'),
+            '#options' => array(
+                'fb' => t('Facebook'),
+                'gg' => t('Google+'),
+				'yt' => t('YouTube'),
+				'tw' => t('Twitter'),
+				'in' => t('Linked'),
+            )
+        );
+        $form['link_fb'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Link Facebook'),
+            '#size' => 60,
+            '#maxlength' => 500,
+			'#default_value' => variable_get('link_fb', '#'),
+        );
+		$form['link_gg'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Link Google+'),
+            '#size' => 60,
+            '#maxlength' => 500,
+			'#default_value' => variable_get('link_gg', '#'),
+        );
+		$form['link_yt'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Link YouTube'),
+            '#size' => 60,
+            '#maxlength' => 500,
+			'#default_value' => variable_get('link_yt', '#'),
+        );
+		$form['link_tw'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Link Twitter'),
+            '#size' => 60,
+            '#maxlength' => 500,
+			'#default_value' => variable_get('link_tw', '#'),
+        );
+		$form['link_in'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Link Linked'),
+            '#size' => 60,
+            '#maxlength' => 500,
+			'#default_value' => variable_get('link_in', '#'),
+        );
+    }
+    return $form;
+}
+
+function social_links_block_save($delta = '', $edit = array()) {
+    // This example comes from node.module.
+    if ($delta == 'social_links') {
+        variable_set('link_fb', $edit['link_fb']);
+		variable_set('link_gg', $edit['link_gg']);
+		variable_set('link_yt', $edit['link_yt']);
+		variable_set('link_tw', $edit['link_tw']);
+        variable_set('link_in', $edit['link_in']);
+		dpm($edit['link_enable']);
+		variable_set('link_enable', $edit['link_enable']);
+    }
+}
