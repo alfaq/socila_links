@@ -118,7 +118,7 @@ function social_links_block_save($delta = '', $edit = array()) {
 		variable_set('link_yt', $edit['link_yt']);
 		variable_set('link_tw', $edit['link_tw']);
         variable_set('link_in', $edit['link_in']);
-		dpm($edit['link_enable']);
+		//dpm($edit['link_enable']);
 		variable_set('link_enable', $edit['link_enable']);
     }
 }
